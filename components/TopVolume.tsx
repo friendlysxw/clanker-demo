@@ -6,11 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getTopVolume } from "@/lib/api";
 
 export default async function TopVolume() {
-  const topVolume = await getTopVolume();
-
   return (
     <div className="space-y-6">
       <Card>
@@ -30,7 +27,7 @@ export default async function TopVolume() {
           </Select>
         </CardHeader>
         <CardContent className="space-y-4">
-          {topVolume.map((item) => (
+          {/* {topVolume.map((item) => (
             <div
               key={item.symbol}
               className="flex flex-col space-y-2 border-b pb-4 last:border-0"
@@ -64,7 +61,7 @@ export default async function TopVolume() {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
         </CardContent>
       </Card>
     </div>

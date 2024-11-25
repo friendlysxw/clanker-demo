@@ -6,7 +6,7 @@ import TokenCard from "./TokenCard";
 export default function TokenListContent() {
   const { tokens } = useTokenList();
 
-  if (tokens.length === 0) {
+  if (tokens && tokens.length === 0) {
     return (
       <div className="flex justify-center items-center h-40">
         <p className="text-lg text-muted-foreground">Loading ...</p>
