@@ -37,16 +37,25 @@ const TokenListContext = createContext<TokenListContextType | undefined>(
   undefined
 );
 
+const ITEMS_PER_PAGE = 10;
 export function TokenListProvider({ children }: { children: ReactNode }) {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [totalNumber, setTotalNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [requestStatus, setRequestStatus] = useState(AsyncRequestStatus.IDLE);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sort, setSort] = useState(TokensSort.DESC);
-  const [type, setType] = useState(TokensType.ALL);
-  const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 10;
+
+  const [filter, setFilter] = useState({
+    sort: TokensSort.DESC,
+    type: TokensType.ALL,
+    page: 1,
+    q: "",
+  });
+  const { sort, type, page: currentPage, q: searchTerm } = filter;
+
+  const setSearchTerm = (term: string) => setFilter({ ...filter, q: term });
+  const setSort = (sort: TokensSort) => setFilter({ ...filter, sort, page: 1 });
+  const setType = (type: TokensType) => setFilter({ ...filter, type, page: 1 });
+  const setCurrentPage = (page: number) => setFilter({ ...filter, page });
 
   const fetchTokens = async ({
     sort,
@@ -75,8 +84,8 @@ export function TokenListProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    fetchTokens({ sort, page: currentPage, type });
-  }, [sort, currentPage, type]);
+    fetchTokens(filter);
+  }, [filter]);
 
   return (
     <TokenListContext.Provider
